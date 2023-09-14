@@ -1,2 +1,2 @@
-# Algorithm-BOJ-
+# Algorithm 문제 코드입니다.
 This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
