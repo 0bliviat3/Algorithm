@@ -21,7 +21,7 @@ public class Main {
 	}
 	
 	static int bfs() {
-        if(n == 1 && m == 1 && metrix[0][0][0] == 0) return 1;
+        	if(n == 1 && m == 1 && metrix[0][0][0] == 0) return 1;
         
 		queue[rear++] = new ChkPoint(0,0,0);
 		metrix[1][0][0] = metrix[0][0][0] = 1;
