@@ -27,11 +27,8 @@ class Solution {
 			heap.add(num1);
 			num2 = heap.pop(1);				
 		}
-		if(num1 == null || num2 == null) {
-			answer[0] = 0;
-            answer[1] = 0;
-		}else {
-			answer[0] = num1;
+		if(num1 != null || num2 != null) {
+            answer[0] = num1;
             answer[1] = num2;
 		}
         
