@@ -22,15 +22,15 @@ class Solution {
         }
         
         Integer num1 = heap.pop(0);
-		Integer num2 = null;
-		if(num1 != null) {
-			heap.add(num1);
-			num2 = heap.pop(1);				
-		}
-		if(num1 != null || num2 != null) {
-            answer[0] = num1;
-            answer[1] = num2;
-		}
+	Integer num2 = null;
+	if(num1 != null) {
+		heap.add(num1);
+		num2 = heap.pop(1);				
+	}
+	if(num1 != null || num2 != null) {
+		answer[0] = num1;
+		answer[1] = num2;
+	}
         
         
         return answer;
