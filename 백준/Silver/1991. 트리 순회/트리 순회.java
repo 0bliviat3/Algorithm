@@ -4,10 +4,10 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-	static Node root;
-	static StringBuilder sb = new StringBuilder();
+	private Node root;
+	private StringBuilder sb = new StringBuilder();
 	
-	static void init(char data, char left, char right) {
+	public void init(char data, char left, char right) {
 		if(data == 'A') {
 			root = new Node(data);
 			if(left != '.') root.left = new Node(left);
@@ -17,7 +17,7 @@ public class Main {
 		}
 	}
 	
-	private static void search(Node node, char data, char left, char right) {
+	private void search(Node node, char data, char left, char right) {
 		if(node == null) return;
 		if(node.data == data) {
 			if(left != '.') node.left = new Node(left);
@@ -28,28 +28,28 @@ public class Main {
 		}
 	}
 	
-	private static void preOrder(Node node) {
+	private void preOrder(Node node) {
 		if(node == null) return;
 		sb.append(node.data);
 		preOrder(node.left);
 		preOrder(node.right);
 	}
 	
-	private static void inOrder(Node node) {
+	private void inOrder(Node node) {
 		if(node == null) return;
 		inOrder(node.left);
 		sb.append(node.data);
 		inOrder(node.right);
 	}
 	
-	private static void postOrder(Node node) {
+	private void postOrder(Node node) {
 		if(node == null) return;
 		postOrder(node.left);
 		postOrder(node.right);
 		sb.append(node.data);
 	}
 	
-	public static void prt() {
+	public void prt() {
 		preOrder(root);
 		sb.append('\n');
 		inOrder(root);
@@ -61,16 +61,17 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		Main tree = new Main();
 		int n = Integer.parseInt(in.readLine());
 		char[] data;
 		while(n-- > 0) {
 			data = in.readLine().toCharArray();
-			init(data[0], data[2], data[4]);
+			tree.init(data[0], data[2], data[4]);
 		}
 		
 		in.close();
 		
-		prt();
+		tree.prt();
 	}
 	
 }
