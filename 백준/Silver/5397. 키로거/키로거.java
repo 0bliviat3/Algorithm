@@ -19,7 +19,7 @@ public class Main {
 
 class BOJ5397Sol {
 	
-	private char[][] stack;
+	private char[][] stack = new char[1_000_000][2];
 	private int[] top;
 	private StringBuilder sb;
 	
@@ -32,10 +32,7 @@ class BOJ5397Sol {
 		}
 	}
 	
-	private void clear() {
-		top = new int[2];
-		stack = new char[1_000_000][2];
-	}
+	private void clear() { top = new int[2]; }
 	
 	private void init() throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
