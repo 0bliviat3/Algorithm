@@ -88,9 +88,8 @@ class BOJ1967Sol {
 	}
 
 	private int getMax() {
-		BOJ1967Node node = bfs(1, new BOJ1967Node(1, 0));
-		node = bfs(node.end, new BOJ1967Node(node.end, 0));
-		return node.dist;
+		int node = bfs(1, new BOJ1967Node(1, 0)).end;
+		return bfs(node, new BOJ1967Node(node, 0)).dist;
 	}
 
 	void run() {
