@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.Consumer;
 
 public class Main {
 
@@ -28,10 +29,10 @@ class Node1865 {
 	}
 }
 
-@FunctionalInterface
-interface TriIntConsumer {
-	void accept(int s, int e, int t);
-}
+//@FunctionalInterface
+//interface TriIntConsumer { // version 1
+//	void accept(int s, int e, int t);
+//}
 
 class BOJ1865Sol {
 
@@ -46,21 +47,42 @@ class BOJ1865Sol {
 		}
 	}
 	
-	private void initMetrix(String input, TriIntConsumer triconsumer) {
+	// version 1
+//	private void initMetrix(String input, TriIntConsumer triconsumer) {
+//		StringTokenizer st = new StringTokenizer(input, " ");
+//		int s = Integer.parseInt(st.nextToken()) - 1;
+//		int e = Integer.parseInt(st.nextToken()) - 1;
+//		int t = Integer.parseInt(st.nextToken());
+//		
+//		triconsumer.accept(s, e, t);
+//	}
+//	
+//	private void connectWay(int s, int e, int t) {
+//		metrix[s][e] = metrix[e][s] = Math.min(metrix[s][e], t);
+//	}
+//	
+//	private void connectHole(int s, int e, int t) {
+//		metrix[s][e] = -t;
+//	}
+	
+	
+	// version 2
+	private void initMetrix(String input, Consumer<Node1865> consumer) {
 		StringTokenizer st = new StringTokenizer(input, " ");
 		int s = Integer.parseInt(st.nextToken()) - 1;
 		int e = Integer.parseInt(st.nextToken()) - 1;
 		int t = Integer.parseInt(st.nextToken());
 		
-		triconsumer.accept(s, e, t);
+		consumer.accept(new Node1865(s, e, t));
 	}
 	
-	private void connectWay(int s, int e, int t) {
-		metrix[s][e] = metrix[e][s] = Math.min(metrix[s][e], t);
+	private void connectWay(Node1865 node) {
+		metrix[node.start][node.end] = metrix[node.end][node.start] = Math.min(
+            metrix[node.start][node.end], node.dist);
 	}
 	
-	private void connectHole(int s, int e, int t) {
-		metrix[s][e] = -t;
+	private void connectHole(Node1865 node) {
+		metrix[node.start][node.end] = -node.dist;
 	}
 	
 	private void process() throws IOException {
