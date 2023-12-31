@@ -7,10 +7,60 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Main {   
+public class Main {
+    public static void main(String[] args) {
+        new BOJ9370Sol().run();
+    }    
+}
+
+class Node9370 implements Comparable<Node9370>{
+    int end;
+    double dist;
+    boolean pass;
+
+    Node9370(int end, double dist, boolean pass) {
+        this.end = end;
+        this.dist = dist;
+        this.pass = pass;
+    }
+
+    @Override
+    public int compareTo(Node9370 o) {
+        if(this.dist == o.dist) {
+            if(o.pass) {
+                return 1;
+            }else if(this.pass) {
+                return -1;
+            }
+        }
+        if(this.dist < o.dist) {
+            return -1;
+        }
+        return 1;
+    }
+}
+
+class Dist9370 {
+    double dist;
+    boolean pass;
+
+    Dist9370(double dist) {
+        this.dist = dist;
+    }
+
+}
+
+class BOJ9370Sol {
+
+    /*
+     * 데이크스트라로 모든 교차로의 최단경로 구하기
+     * 이때 경유도로를 거치지 않는 경우를 제외
+     */
+
     private Dist9370[] distances;
     private List<List<Node9370>> graph;
     private List<Integer> ansList;
+
     private void claer(int n) {
         distances = new Dist9370[n + 1];
         if(graph == null) {
@@ -26,6 +76,7 @@ public class Main {
             graph.add(new ArrayList<>());
         }
     }
+
     private boolean biCompare(int s, int e, int g, int h) {
         if(s == g && e == h) {
             return true;
@@ -34,6 +85,7 @@ public class Main {
         }
         return false;
     }
+
     private void dijkstra(int start, int g, int h) {
         PriorityQueue<Node9370> heap = new PriorityQueue<>();
         distances[start].dist = 0;
@@ -55,6 +107,7 @@ public class Main {
             }
         }
     }
+
     private void initGraph(String input, int g, int h) {
         StringTokenizer st = new StringTokenizer(input, " ");
         int start = Integer.parseInt(st.nextToken());
@@ -67,6 +120,7 @@ public class Main {
         graph.get(start).add(new Node9370(end, dist, pass));
         graph.get(end).add(new Node9370(start, dist, pass));
     }
+
     private void process() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder ans = new StringBuilder();
@@ -82,7 +136,7 @@ public class Main {
             int h = Integer.parseInt(st.nextToken());
             claer(n);
             while(m-- > 0) {
-                initGraph(in.readLine(),g,h);
+                initGraph(in.readLine(), g, h);
             }
             dijkstra(start, g, h);
             while(t-- > 0) {
@@ -99,38 +153,12 @@ public class Main {
         }
         System.out.print(ans);
     }
-    public static void main(String[] args) throws IOException {
-        new Main().process();
-    }    
-}
-class Node9370 implements Comparable<Node9370>{
-    int end;
-    double dist;
-    boolean pass;
-    Node9370(int end, double dist, boolean pass) {
-        this.end = end;
-        this.dist = dist;
-        this.pass = pass;
-    }
-    @Override
-    public int compareTo(Node9370 o) {
-        if(this.dist == o.dist) {
-            if(o.pass) {
-                return 1;
-            }else if(this.pass) {
-                return -1;
-            }
+
+    void run() {
+        try {
+            process();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if(this.dist < o.dist) {
-            return -1;
-        }
-        return 1;
-    }
-}
-class Dist9370 {
-    double dist;
-    boolean pass;
-    Dist9370(double dist) {
-        this.dist = dist;
     }
 }
