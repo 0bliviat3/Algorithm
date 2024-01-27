@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
@@ -73,9 +74,7 @@ class BOJ13418Sol {
 
     private void init() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        AbstractQueue<Node13418> heap = new PriorityQueue<>((a, b) -> {
-            return b.cost - a.cost;
-        });
+        AbstractQueue<Node13418> heap = new PriorityQueue<>(Collections.reverseOrder());
         StringTokenizer st = new StringTokenizer(in.readLine());
         int n = Integer.parseInt(st.nextToken()) + 1;
         int m = Integer.parseInt(st.nextToken());       
