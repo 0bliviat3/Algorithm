@@ -2,10 +2,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.AbstractQueue;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) {
+        new BOJ13418Sol(new UnionFind(), new ArrayList<>()).run();
+    }
+}
 
 class UnionFind {
     
@@ -37,18 +43,6 @@ class UnionFind {
     }
 }
 
-
-public class Main {
-    public static void main(String[] args) {
-        new BOJ13418Sol(
-            new UnionFind(),
-            new PriorityQueue<>(),
-            new PriorityQueue<>((a, b) -> {
-                return b.cost - a.cost;
-            })).run();
-    }
-}
-
 class Node13418 implements Comparable<Node13418> {
     int start;
     int end;
@@ -70,30 +64,27 @@ class BOJ13418Sol {
 
     private static final String EASY = "1";
     private final UnionFind unionFind;
-    private final AbstractQueue<Node13418> minHeap;
-    private final AbstractQueue<Node13418> maxHeap;
+    private final List<Node13418> data;
 
-    BOJ13418Sol(
-        final UnionFind unionFind,
-        final AbstractQueue<Node13418> minHeap,
-        final AbstractQueue<Node13418> maxHeap) {
-            this.unionFind = unionFind;
-            this.minHeap = minHeap;
-            this.maxHeap = maxHeap;
+    BOJ13418Sol(final UnionFind unionFind, final List<Node13418> data) {
+        this.unionFind = unionFind;
+        this.data = data;
     }
 
     private void init() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        AbstractQueue<Node13418> heap = new PriorityQueue<>((a, b) -> {
+            return b.cost - a.cost;
+        });
         StringTokenizer st = new StringTokenizer(in.readLine());
         int n = Integer.parseInt(st.nextToken()) + 1;
-        int m = Integer.parseInt(st.nextToken());
-        unionFind.clear(n);
+        int m = Integer.parseInt(st.nextToken());       
         while(m-- > -1) {
             init(in.readLine());
         }
-        int max = kruskal(maxHeap, n);
-        unionFind.clear(n);
-        int min = kruskal(minHeap, n);
+        heap.addAll(data);
+        int max = kruskal(heap, n);   
+        int min = kruskal(new PriorityQueue<>(data), n);
         System.out.print((int) (Math.pow(max, 2) - Math.pow(min, 2)));
     }
 
@@ -102,19 +93,16 @@ class BOJ13418Sol {
         int start = Integer.parseInt(st.nextToken());
         int end = Integer.parseInt(st.nextToken());
         if(st.nextToken().equals(EASY)) {
-            minHeap.add(new Node13418(start, end, 0));
-            maxHeap.add(new Node13418(start, end, 0));
-            minHeap.add(new Node13418(end, start, 0));
-            maxHeap.add(new Node13418(end, start, 0));
+            data.add(new Node13418(start, end, 0));
+            data.add(new Node13418(end, start, 0));
             return;
         }
-        maxHeap.add(new Node13418(start, end, 1));
-        maxHeap.add(new Node13418(start, end, 1));
-        minHeap.add(new Node13418(end, start, 1));
-        maxHeap.add(new Node13418(end, start, 1));
+        data.add(new Node13418(start, end, 1));
+        data.add(new Node13418(end, start, 1));
     }
 
     private int kruskal(AbstractQueue<Node13418> heap, int n) {
+        unionFind.clear(n);
         int costs = 0;
         int cnt = 0;
         while(!heap.isEmpty()) {
