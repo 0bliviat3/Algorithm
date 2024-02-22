@@ -2,16 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.AbstractQueue;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) {
-        new BOJ2887Sol().run();
+        new BOJ2887Sol_2().run();
     }
 }
 
@@ -70,14 +66,18 @@ class Tunnel implements Comparable<Tunnel> {
     }
 }
 
-class BOJ2887Sol {
+class BOJ2887Sol_2 {
     private AbstractQueue<Tunnel> heap;
-    private List<Planet> planets;
+    private AbstractQueue<Planet> planetsX;
+    private AbstractQueue<Planet> planetsY;
+    private AbstractQueue<Planet> planetsZ;
     private int[] parent;
 
     private void clear(int n) {
         heap = new PriorityQueue<>();
-        planets = new ArrayList<>();
+        planetsX = new PriorityQueue<>(Planet::compareX);
+        planetsY = new PriorityQueue<>(Planet::compareY);
+        planetsZ = new PriorityQueue<>(Planet::compareZ);
         parent = new int[n + 1];
         for (int i = 1; i <= n; i++) {
             parent[i] = i;
@@ -89,7 +89,9 @@ class BOJ2887Sol {
         int x = Integer.parseInt(point.nextToken());
         int y = Integer.parseInt(point.nextToken());
         int z = Integer.parseInt(point.nextToken());
-        planets.add(new Planet(no, x, y, z));
+        planetsX.add(new Planet(no, x, y, z));
+        planetsY.add(new Planet(no, x, y, z));
+        planetsZ.add(new Planet(no, x, y, z));
     }
 
     private int find(int x) {
@@ -109,13 +111,14 @@ class BOJ2887Sol {
         return false;
     }
 
-    private void setCost(int n, Comparator<Planet> comparator) {
-        Collections.sort(planets, comparator);
-        for (int i = 0; i < n - 1; i++) {
+    private void setCost(AbstractQueue<Planet> planetQueue) {
+        Planet planet = planetQueue.poll();
+        while(!planetQueue.isEmpty()) {
+            Planet planet2 = planetQueue.poll();
             heap.add(
-                    new Tunnel(planets.get(i).no, planets.get(i + 1).no,
-                            planets.get(i)
-                                    .getCost(planets.get(i + 1))));
+                new Tunnel(planet.no, planet2.no,
+                        planet.getCost(planet2)));
+            planet = planet2;
         }
     }
 
@@ -142,9 +145,9 @@ class BOJ2887Sol {
         for (int i = 1; i <= n; i++) {
             initPlanet(in.readLine(), i);
         }
-        setCost(n, Planet::compareX);
-        setCost(n, Planet::compareY);
-        setCost(n, Planet::compareZ);
+        setCost(planetsX);
+        setCost(planetsY);
+        setCost(planetsZ);
         System.out.print(kruskal(n));
     }
 
