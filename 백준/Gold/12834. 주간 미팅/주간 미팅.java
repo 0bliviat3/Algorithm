@@ -39,7 +39,7 @@ public class Main {
             }
         }
 
-        int dijkstra(int a, int b, int n, int start) {
+        int[] dijkstra(int n, int start) { //TODO: a, b에서 한번씩만으로 거리 계산 가능.
             int[] dists = new int[n + 1];
             AbstractQueue<Point> heap = new PriorityQueue<>(Point::compare);
 
@@ -59,10 +59,7 @@ public class Main {
                 }
             }
 
-            dists[a] = (dists[a] == INF) ? -1 : dists[a];
-            dists[b] = (dists[b] == INF) ? -1 : dists[b];
-
-            return dists[a] + dists[b];
+            return dists;
         }
 
         void solve() throws IOException {
@@ -87,10 +84,15 @@ public class Main {
             }
             /* init end */
 
+            /* get dists */
+            int[] distsByA = dijkstra(v, a);
+            int[] distsByB = dijkstra(v, b);
+
             /* calculate sum */
             int ans = 0;
             for (int person : homes) {
-                ans += dijkstra(a, b, v, person);
+                ans += (distsByA[person] == INF) ? -1 : distsByA[person];
+                ans += (distsByB[person] == INF) ? -1 : distsByB[person];
             }
 
             /* print answer */
