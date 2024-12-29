@@ -12,17 +12,13 @@ public class Main {
         int x = Integer.parseInt(st.nextToken());
 
         int ans = -1;
-        int max = 0;
         while (n-- > 0) {
             st = new StringTokenizer(in.readLine());
             int s = Integer.parseInt(st.nextToken());
             int t = Integer.parseInt(st.nextToken());
 
             if (s + t <= x) {
-                if (max < s + t) {
-                    max = s + t;
-                    ans = s;
-                }
+                ans = Math.max(ans, s);
             }
         }
 
