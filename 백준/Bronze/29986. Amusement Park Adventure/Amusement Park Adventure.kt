@@ -6,7 +6,6 @@ fun main() {
     print(
         readln()
             .split(" ")
-            .filter { it.toInt() <= high }
-            .size
+            .count { it.toInt() <= high }
     )
 }
