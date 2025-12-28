@@ -21,10 +21,10 @@ void solve() {
 		if (i % k == 0) {
 			cnt = 0;
 		}
-		if (x) {
+		if (!x) {
 			cnt++;
 		}
-		if ((i % k == k - 1) && cnt >= p) {
+		if ((i % k == k - 1) && cnt < p) {
 			count++;
 		}
 	}
