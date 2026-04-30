@@ -1,3 +1,3 @@
 # Algorithm 문제 코드입니다.
 
-JAVA code
+JAVA, Python, C++, kotlin, ...etc
